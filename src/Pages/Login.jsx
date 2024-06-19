@@ -5,7 +5,7 @@ import { login } from "@/store/slices/Userslices";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,10 +19,11 @@ const Login = () => {
     dispatch(login(email, password));
   };
   useEffect(() => {
+    
     if (isAuthenticated) {
       navigate("/");
     }
-  }, [dispatch, isAuthenticated, error]);
+  }, [dispatch, isAuthenticated, error,loading]);
 
   return (
     <div className="w-full lg:grid lg:min-h-[100vh] lg:grid-cols-2 xl:min-h-[100vh]">

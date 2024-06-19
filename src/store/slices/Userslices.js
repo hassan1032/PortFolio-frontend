@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const userSlice = createSlice({
   name: "user",
@@ -47,12 +48,15 @@ export const login = (email, password) => async (dispatch) => {
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
 
-    console.log("datares",data);
+    console.log("datares",data?.message);
+    toast.success(data?.message)
     dispatch(userSlice.actions.loginSuccess(data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    console.log("dataerror",error);
-    dispatch(userSlice.actions.loginFailed(error.response.data.message));
+    console.log("dataerror",error?.response?.data?.message);
+    toast.error(error?.response?.data?.message)
+
+    dispatch(userSlice.actions.loginFailed(error?.response?.data?.message));
   }
 };
 
