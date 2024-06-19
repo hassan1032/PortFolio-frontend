@@ -1,9 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { login } from "@/store/slices/Userslices";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, isAuthenticated, error] = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    dispatch(login(email, password));
+  };
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [dispatch, isAuthenticated, error]);
+
   return (
     <div className="w-full lg:grid lg:min-h-[100vh] lg:grid-cols-2 xl:min-h-[100vh]">
       <div className="min-h-[100vh] flex items-center justify-center py-12">
@@ -39,15 +57,6 @@ const Login = () => {
             <Button type="submit" className="w-full">
               Login
             </Button>
-            <Button variant="outline" className="w-full">
-              Login with Google
-            </Button>
-          </div>
-          <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" className="underline">
-              Sign up
-            </Link>
           </div>
         </div>
       </div>
