@@ -52,4 +52,8 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
+export const clearAllErrors = ()=>(dispatch)=>{
+  dispatch(userSlice.actions.clearAllErrors());
+}
+
 export default userSlice.reducer;
