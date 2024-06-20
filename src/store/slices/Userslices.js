@@ -151,12 +151,12 @@ export const logout = () => async (dispatch) => {
   }
 };
 export const updatePassword =
-  (currentPassword, newPassword, confirmNewPassword) => async (dispatch) => {
+  ( currentPassword, newPassword, confirmPassword ) => async (dispatch) => {
     dispatch(userSlice.actions.updatePasswordRequest());
     try {
       const { data } = await axios.put(
         "http://localhost:5000/api/user/update-password",
-        { currentPassword, newPassword, confirmNewPassword },
+        { currentPassword, newPassword, confirmPassword },
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },

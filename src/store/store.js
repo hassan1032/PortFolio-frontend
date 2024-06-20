@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/Userslices"
+import forgotPasswordReducer from "./slices/forgotPassword.slicesx"
 
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    // forgotPassword: forgotPasswordReducer,
+     forgotPassword: forgotPasswordReducer,
     // skill: skillReducer,
     // project: projectReducer,
     // timeline: timelineReducer,
