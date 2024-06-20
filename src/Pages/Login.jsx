@@ -69,9 +69,16 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button type="submit" className="w-full" onClick={handleLogin}>
-              Login
-            </Button>
+            {loading ? (
+              <SpecialLoadingButton content={"Loggin In"} />
+            ) : (
+              <Button
+                onClick={() => handleLogin(email, password)}
+                className="w-full"
+              >
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </div>
