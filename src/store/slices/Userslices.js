@@ -31,7 +31,7 @@ const userSlice = createSlice({
       state.user = null;
       state.error = action.payload;
     },
-    clearAllErrors: (state) => {
+    clearAllUserErrors: (state) => {
       state.error = null;
     },
   },
@@ -45,15 +45,14 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
-
     dispatch(userSlice.actions.loginSuccess({ user: data.user, message: data.message }));
   } catch (error) {
-    dispatch(userSlice.actions.loginFailed(error?.response?.data?.message));
+    dispatch(userSlice.actions.loginFailed(error.response.data.message));
   }
 };
 
-export const clearAllErrors = () => (dispatch) => {
-  dispatch(userSlice.actions.clearAllErrors());
+export const clearAllUserErrors = () => (dispatch) => {
+  dispatch(userSlice.actions.clearAllUserErrors());
 };
 
 export default userSlice.reducer;

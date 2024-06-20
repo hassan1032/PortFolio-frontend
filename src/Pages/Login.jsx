@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { login, clearAllErrors } from "@/store/slices/Userslices";
+import { login, clearAllUserErrors } from "@/store/slices/Userslices";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,23 +14,22 @@ const Login = () => {
     (state) => state.user
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
 
   const handleLogin = () => {
     dispatch(login(email, password));
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      toast.success(message);
-      navigate("/");
-    }
-    
     if (error) {
       toast.error(error);
-      dispatch(clearAllErrors());
+      dispatch(clearAllUserErrors());
     }
-  }, [isAuthenticated, error, message, navigate, dispatch,loading]);
+    if (isAuthenticated && message) {
+      toast.success(message);
+      navigateTo("/");
+    }
+  }, [dispatch, isAuthenticated, error, loading, message, navigateTo]);
 
   return (
     <div className="w-full lg:grid lg:min-h-[100vh] lg:grid-cols-2 xl:min-h-[100vh]">
