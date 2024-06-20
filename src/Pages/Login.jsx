@@ -1,15 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { login } from "@/store/slices/Userslices";
+import { login, clearAllErrors } from "@/store/slices/Userslices";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loading, isAuthenticated, error } = useSelector(
+  const { loading, isAuthenticated, error, message } = useSelector(
     (state) => state.user
   );
   const dispatch = useDispatch();
@@ -18,12 +19,18 @@ const Login = () => {
   const handleLogin = () => {
     dispatch(login(email, password));
   };
+
   useEffect(() => {
-    
     if (isAuthenticated) {
+      toast.success(message);
       navigate("/");
     }
-  }, [dispatch, isAuthenticated, error,loading]);
+    
+    if (error) {
+      toast.error(error);
+      dispatch(clearAllErrors());
+    }
+  }, [isAuthenticated, error, message, navigate, dispatch,loading]);
 
   return (
     <div className="w-full lg:grid lg:min-h-[100vh] lg:grid-cols-2 xl:min-h-[100vh]">
@@ -50,7 +57,7 @@ const Login = () => {
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
                 <Link
-                 to={"/password/forgot"}
+                  to={"/password/forgot"}
                   className="ml-auto inline-block text-sm underline"
                 >
                   Forgot your password?
@@ -70,7 +77,6 @@ const Login = () => {
         </div>
       </div>
       <div className="hidden bg-muted lg:block">
-        {/* Uncomment and adjust the Image component as needed */}
         <img
           src="/placeholder.svg"
           alt="Image"

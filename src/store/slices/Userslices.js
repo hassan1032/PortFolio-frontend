@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const userSlice = createSlice({
   name: "user",
@@ -13,7 +12,7 @@ const userSlice = createSlice({
     isUpdated: false,
   },
   reducers: {
-    loginRequest: (state, action) => {
+    loginRequest: (state) => {
       state.loading = true;
       state.isAuthenticated = false;
       state.user = {};
@@ -22,7 +21,8 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.message = action.payload.message;
       state.error = null;
     },
     loginFailed: (state, action) => {
@@ -31,9 +31,8 @@ const userSlice = createSlice({
       state.user = null;
       state.error = action.payload;
     },
-    clearAllErrors(state, action) {
+    clearAllErrors: (state) => {
       state.error = null;
-      state.user = state.user;
     },
   },
 });
@@ -42,20 +41,13 @@ export const login = (email, password) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
     const { data } = await axios.post(
-
       "http://localhost:5000/api/user/login",
       { email, password },
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
 
-    console.log("datares",data?.message);
-    toast.success(data?.message)
-    dispatch(userSlice.actions.loginSuccess(data.user));
-    dispatch(userSlice.actions.clearAllErrors());
+    dispatch(userSlice.actions.loginSuccess({ user: data.user, message: data.message }));
   } catch (error) {
-    console.log("dataerror",error?.response?.data?.message);
-    toast.error(error?.response?.data?.message)
-
     dispatch(userSlice.actions.loginFailed(error?.response?.data?.message));
   }
 };
