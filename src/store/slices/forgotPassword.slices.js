@@ -74,7 +74,7 @@ export const resetPassword =
     try {
       dispatch(forgotResetPassSlice.actions.resetPasswordRequest());
       const response = await axios.put(
-        ` http://localhost:5000/api/user/reset-Password${token}`,
+        ` http://localhost:5000/api/user/reset-Password/${token}`,
         { password, confirmPassword },
         {
           withCredentials: true,

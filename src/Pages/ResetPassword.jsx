@@ -1,4 +1,3 @@
-
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,10 +9,10 @@ import {
   clearAllForgotResetPassErrors,
 } from "../store/slices/forgotPassword.slices";
 import { getUser } from "../store/slices/Userslices";
-import SpecialLoadingButton from"../Pages/sub-component/specialLoding.button";
+import SpecialLoadingButton from "../Pages/sub-component/specialLoding.button";
 import { toast } from "react-toastify";
 
-const Login = () => {
+const ResetPassword = () => { 
   const { token } = useParams();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -22,9 +21,10 @@ const Login = () => {
   );
   const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
-  const handleResetPassword = (password, confirmPassword) => {
+  const handleResetPassword = (e) => {
+    e.preventDefault(); 
     dispatch(resetPassword(token, password, confirmPassword));
   };
 
@@ -36,15 +36,17 @@ const Login = () => {
     // if (isAuthenticated) {
     //   navigateTo("/");
     // }
-    if (message !== null) {
+    if (message) {
       toast.success(message);
       dispatch(getUser());
+      
+       navigate("/login");
     }
-  }, [dispatch, isAuthenticated, error, loading]);
+  }, [dispatch, error, message, navigate]);
 
   return (
     <div className="w-full lg:grid lg:min-h-[100vh] lg:grid-cols-2 xl:min-h-[100vh]">
-      <div className=" min-h-[100vh] flex items-center justify-center py-12">
+      <div className="min-h-[100vh] flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Reset Password</h1>
@@ -52,13 +54,14 @@ const Login = () => {
               Set a new password
             </p>
           </div>
-          <div className="grid gap-4">
+          <form onSubmit={handleResetPassword} className="grid gap-4"> {/* Added form element */}
             <div className="grid gap-2">
               <Label>Password</Label>
               <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="grid gap-2">
@@ -69,26 +72,24 @@ const Login = () => {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
             </div>
             {!loading ? (
-              <Button
-                onClick={() => handleResetPassword(password, confirmPassword)}
-                className="w-full"
-              >
+              <Button type="submit" className="w-full"> {/* Changed button to type="submit" */}
                 Reset Password
               </Button>
             ) : (
               <SpecialLoadingButton content={"Resetting Your Password"} />
             )}
-          </div>
+          </form>
         </div>
       </div>
       <div className="flex justify-center items-center bg-muted">
-        <img src="/reset.png" alt="login" />
+        <img src="/reset.png" alt="reset" />
       </div>
     </div>
   );
 };
 
-export default Login;
+export default ResetPassword; 
