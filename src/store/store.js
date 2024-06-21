@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/Userslices"
-import forgotPasswordReducer from "./slices/forgotPassword.slicesx"
+import forgotPasswordReducer from "./slices/forgotPassword.slices"
 
 
 export const store = configureStore({

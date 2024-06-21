@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import SpecialLoadingButton from "./sub-component/specialLoding.button";
+import SpecialLoadingButton from"../Pages/sub-component/specialLoding.button";
 
 const Login = () => {
   const [email, setEmail] = useState("");
