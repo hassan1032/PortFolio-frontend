@@ -55,7 +55,7 @@ const ResetPassword = () => {
           </div>
           <form onSubmit={handleResetPassword} className="grid gap-4">
             {" "}
-            {/* Added form element */}
+        
             <div className="grid gap-2">
               <Label>Password</Label>
               <Input
@@ -79,7 +79,7 @@ const ResetPassword = () => {
             {!loading ? (
               <Button type="submit" className="w-full">
                 {" "}
-                {/* Changed button to type="submit" */}
+      
                 Reset Password
               </Button>
             ) : (
