@@ -12,7 +12,7 @@ import { getUser } from "../store/slices/Userslices";
 import SpecialLoadingButton from "../Pages/sub-component/specialLoding.button";
 import { toast } from "react-toastify";
 
-const ResetPassword = () => { 
+const ResetPassword = () => {
   const { token } = useParams();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -24,7 +24,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
 
   const handleResetPassword = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     dispatch(resetPassword(token, password, confirmPassword));
   };
 
@@ -33,16 +33,15 @@ const ResetPassword = () => {
       toast.error(error);
       dispatch(clearAllForgotResetPassErrors());
     }
-    // if (isAuthenticated) {
-    //   navigateTo("/");
-    // }
+    if (isAuthenticated) {
+      navigate("/");
+    }
     if (message) {
       toast.success(message);
       dispatch(getUser());
-      
-       navigate("/login");
+      navigate("/");
     }
-  }, [dispatch, error, message, navigate]);
+  }, [dispatch, error, message, navigate, loading]);
 
   return (
     <div className="w-full lg:grid lg:min-h-[100vh] lg:grid-cols-2 xl:min-h-[100vh]">
@@ -54,7 +53,9 @@ const ResetPassword = () => {
               Set a new password
             </p>
           </div>
-          <form onSubmit={handleResetPassword} className="grid gap-4"> {/* Added form element */}
+          <form onSubmit={handleResetPassword} className="grid gap-4">
+            {" "}
+            {/* Added form element */}
             <div className="grid gap-2">
               <Label>Password</Label>
               <Input
@@ -76,7 +77,9 @@ const ResetPassword = () => {
               />
             </div>
             {!loading ? (
-              <Button type="submit" className="w-full"> {/* Changed button to type="submit" */}
+              <Button type="submit" className="w-full">
+                {" "}
+                {/* Changed button to type="submit" */}
                 Reset Password
               </Button>
             ) : (
@@ -92,4 +95,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword; 
+export default ResetPassword;
