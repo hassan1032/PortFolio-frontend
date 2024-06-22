@@ -327,9 +327,9 @@ const HomePage = () => {
                   alt="avatar"
                   className="w-20 h-20 rounded-full max-[900px]:hidden"
                 />
-                {/* <h1 className="text-4xl max-[900px]:text-2xl">
-            Welcome back, {user.fullName}
-          </h1> */}
+                <h1 className="text-4xl max-[900px]:text-2xl">
+                  Welcome back, {user.fullName}
+                </h1>
               </div>
             </header>
           </div>
