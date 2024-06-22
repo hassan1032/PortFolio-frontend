@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const userSlice = createSlice({
   name: "user",
@@ -31,82 +32,80 @@ const userSlice = createSlice({
       state.user = null;
       state.error = action.payload;
     },
-    loadUserRequest(state, action) {
+    loadUserRequest: (state) => {
       state.loading = true;
       state.isAuthenticated = false;
       state.user = {};
       state.error = null;
     },
-    loadUserSuccess(state, action) {
+    loadUserSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
       state.error = null;
     },
-    loadUserFailed(state, action) {
+    loadUserFailed: (state, action) => {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = {};
       state.error = action.payload;
     },
-    logoutSuccess(state, action) {
+    logoutSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = {};
       state.error = null;
       state.message = action.payload;
     },
-    logoutFailed(state, action) {
+    logoutFailed: (state, action) => {
       state.loading = false;
       state.isAuthenticated = state.isAuthenticated;
       state.user = state.user;
       state.error = action.payload;
     },
-    updatePasswordRequest(state, action) {
+    updatePasswordRequest: (state) => {
       state.loading = true;
       state.isUpdated = false;
       state.message = null;
       state.error = null;
     },
-    updatePasswordSuccess(state, action) {
+    updatePasswordSuccess: (state, action) => {
       state.loading = false;
       state.isUpdated = true;
       state.message = action.payload;
       state.error = null;
     },
-    updatePasswordFailed(state, action) {
+    updatePasswordFailed: (state, action) => {
       state.loading = false;
       state.isUpdated = false;
       state.message = null;
       state.error = action.payload;
     },
-    updateProfileRequest(state, action) {
+    updateProfileRequest: (state) => {
       state.loading = true;
       state.isUpdated = false;
       state.message = null;
       state.error = null;
     },
-    updateProfileSuccess(state, action) {
+    updateProfileSuccess: (state, action) => {
       state.loading = false;
       state.isUpdated = true;
       state.message = action.payload;
       state.error = null;
     },
-    updateProfileFailed(state, action) {
+    updateProfileFailed: (state, action) => {
       state.loading = false;
       state.isUpdated = false;
       state.message = null;
       state.error = action.payload;
     },
-    updateProfileResetAfterUpdate(state, action) {
+    updateProfileResetAfterUpdate: (state) => {
       state.error = null;
       state.isUpdated = false;
       state.message = null;
     },
     clearAllUserErrors: (state) => {
       state.error = null;
-      state = state.user;
-      
     },
   },
 });
@@ -119,6 +118,8 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
+
+    Cookies.set('portfolioToken', data?.token);
     dispatch(userSlice.actions.loginSuccess({ user: data.user, message: data.message }));
   } catch (error) {
     dispatch(userSlice.actions.loginFailed(error.response.data.message));
@@ -128,13 +129,22 @@ export const login = (email, password) => async (dispatch) => {
 export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.loadUserRequest());
   try {
+    const token = Cookies.get('portfolioToken');
+    if (!token) {
+      throw new Error('No token found');
+    }
+
     const { data } = await axios.get("http://localhost:5000/api/user/me", {
       withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
     });
     dispatch(userSlice.actions.loadUserSuccess(data.user));
-    dispatch(userSlice.actions.clearAllUserErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loadUserFailed(error.response.data.message));
+    dispatch(userSlice.actions.loadUserFailed(error.response?.data?.message || 'Failed to load user'));
+    Cookies.remove('portfolioToken');
   }
 };
 
@@ -144,22 +154,27 @@ export const logout = () => async (dispatch) => {
       "http://localhost:5000/api/user/logout",
       { withCredentials: true }
     );
+    Cookies.remove("portfolioToken");
     dispatch(userSlice.actions.logoutSuccess(data.message));
     dispatch(userSlice.actions.clearAllUserErrors());
   } catch (error) {
     dispatch(userSlice.actions.logoutFailed(error.response.data.message));
   }
 };
+
 export const updatePassword =
-  ( currentPassword, newPassword, confirmPassword ) => async (dispatch) => {
+  (currentPassword, newPassword, confirmPassword) => async (dispatch) => {
     dispatch(userSlice.actions.updatePasswordRequest());
     try {
+      const token = Cookies.get('portfolioToken');
       const { data } = await axios.put(
         "http://localhost:5000/api/user/update-password",
         { currentPassword, newPassword, confirmPassword },
         {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
         }
       );
       dispatch(userSlice.actions.updatePasswordSuccess(data.message));
@@ -171,31 +186,36 @@ export const updatePassword =
     }
   };
 
-  export const updateProfile = (data) => async (dispatch) => {
-    dispatch(userSlice.actions.updateProfileRequest());
-    try {
-      const response = await axios.put(
-        "http://localhost:5000/api/user/update-profile",
-        data,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
+export const updateProfile = (data) => async (dispatch) => {
+  dispatch(userSlice.actions.updateProfileRequest());
+  try {
+    const token = Cookies.get('portfolioToken');
+    const response = await axios.put(
+      "http://localhost:5000/api/user/update-profile",
+      data,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         }
-      );
-      dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
-      dispatch(userSlice.actions.clearAllUserErrors());
-    } catch (error) {
-      dispatch(
-        userSlice.actions.updateProfileFailed(error.response.data.message)
-      );
-    }
-  };
-  export const resetProfile = () => (dispatch) => {
-    dispatch(userSlice.actions.updateProfileResetAfterUpdate());
-  };
-  export const clearAllUserErrors = () => (dispatch) => {
+      }
+    );
+    dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
     dispatch(userSlice.actions.clearAllUserErrors());
-  };
-  
+  } catch (error) {
+    dispatch(
+      userSlice.actions.updateProfileFailed(error.response.data.message)
+    );
+  }
+};
+
+export const resetProfile = () => (dispatch) => {
+  dispatch(userSlice.actions.updateProfileResetAfterUpdate());
+};
+
+export const clearAllUserErrors = () => (dispatch) => {
+  dispatch(userSlice.actions.clearAllUserErrors());
+};
 
 export default userSlice.reducer;

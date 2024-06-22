@@ -27,3 +27,9 @@
   background: transparent;
   color: hsl(222.2 47.4% 11.2%);
 }
+
+.flexbox{
+  display: flex;
+  justify-content: ;
+  gap: 3rem;
+}

@@ -27,9 +27,9 @@ const ForgotPassword = () => {
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
-    // if (isAuthenticated) {
-    //   navigateTo("/");
-    // }
+    if (isAuthenticated) {
+      navigateTo("/");
+    }
     if (message !== null) {
       toast.success(message);
     }

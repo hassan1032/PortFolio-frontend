@@ -33,9 +33,9 @@ const ResetPassword = () => {
       toast.error(error);
       dispatch(clearAllForgotResetPassErrors());
     }
-    if (isAuthenticated) {
-      navigate("/");
-    }
+    // if (isAuthenticated) {
+    //   navigate("/");
+    // }
     if (message) {
       toast.success(message);
       dispatch(getUser());
@@ -55,7 +55,6 @@ const ResetPassword = () => {
           </div>
           <form onSubmit={handleResetPassword} className="grid gap-4">
             {" "}
-        
             <div className="grid gap-2">
               <Label>Password</Label>
               <Input
@@ -79,7 +78,6 @@ const ResetPassword = () => {
             {!loading ? (
               <Button type="submit" className="w-full">
                 {" "}
-      
                 Reset Password
               </Button>
             ) : (
