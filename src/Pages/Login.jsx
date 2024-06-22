@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SpecialLoadingButton from"../Pages/sub-component/specialLoding.button";
-
+import img1 from '../../public/imges/3.jpg'
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,7 +85,7 @@ const Login = () => {
       </div>
       <div className="hidden bg-muted lg:block">
         <img
-          src="/placeholder.svg"
+          src={img1}
           alt="Image"
           className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />

@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import img1 from '../../public/imges/4.jpg'
 import {
   resetPassword,
   clearAllForgotResetPassErrors,
@@ -84,7 +85,7 @@ const Login = () => {
         </div>
       </div>
       <div className="flex justify-center items-center bg-muted">
-        <img src="/reset.png" alt="login" />
+        <img src={img1} alt="login" />
       </div>
     </div>
   );

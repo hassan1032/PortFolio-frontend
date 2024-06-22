@@ -8,6 +8,7 @@ import { clearAllUserErrors } from "../store/slices/Userslices";
 import { forgotPassword } from "../store/slices/forgotPassword.slices";
 import { toast } from "react-toastify";
 import SpecialLoadingButton from"../Pages/sub-component/specialLoding.button";
+import img1 from '../../public/imges/5.jpg'
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const { loading, error, message } = useSelector(
@@ -80,7 +81,8 @@ const ForgotPassword = () => {
         </div>
       </div>
       <div className="flex justify-center items-center bg-muted">
-        <img src="/forgot.png" alt="login" />
+        <img src={img1} alt="login" className="h-full w-full object-cover"/>
+       
       </div>
     </div>
   );
