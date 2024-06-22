@@ -8,7 +8,6 @@ import { clearAllUserErrors } from "../store/slices/Userslices";
 import { forgotPassword } from "../store/slices/forgotPassword.slices";
 import { toast } from "react-toastify";
 import SpecialLoadingButton from"../Pages/sub-component/specialLoding.button";
-
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const { loading, error, message } = useSelector(
