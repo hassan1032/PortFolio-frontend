@@ -200,6 +200,8 @@ export const updatePassword =
         }
       );
       console.log("respne>",response),
+     
+
       dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
       dispatch(userSlice.actions.clearAllUserErrors());
     } catch (error) {

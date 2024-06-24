@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   clearAllUserErrors,
+  getUser,
   resetProfile,
   updateProfile,
 } from "../../store/slices/Userslices";
@@ -83,8 +84,6 @@ const UpdateProfile = () => {
     formData.append("avatar", avatar);
     formData.append("resume", resume);
     dispatch(updateProfile(formData));
-
-  console.log("user",user);
   };
 
   useEffect(() => {
@@ -93,6 +92,7 @@ const UpdateProfile = () => {
       dispatch(clearAllUserErrors());
     }
     if (isUpdated) {
+      
       dispatch(getUser());
       dispatch(resetProfile());
     }
