@@ -8,7 +8,7 @@ import { clearAllUserErrors } from "../store/slices/Userslices";
 import { forgotPassword } from "../store/slices/forgotPassword.slices";
 import { toast } from "react-toastify";
 import SpecialLoadingButton from"../Pages/sub-component/specialLoding.button";
-import img1 from '../../public/imges/5.jpg'
+import img1 from '../../public/imges/6.png'
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const { loading, error, message } = useSelector(
