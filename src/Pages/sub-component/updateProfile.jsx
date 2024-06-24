@@ -83,6 +83,8 @@ const UpdateProfile = () => {
     formData.append("avatar", avatar);
     formData.append("resume", resume);
     dispatch(updateProfile(formData));
+
+  console.log("user",user);
   };
 
   useEffect(() => {

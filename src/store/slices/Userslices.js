@@ -109,6 +109,7 @@ const userSlice = createSlice({
   },
 });
 
+
 export const login = (email, password) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
@@ -185,18 +186,22 @@ export const updatePassword =
 
 
   export const updateProfile = (data) => async (dispatch) => {
+
+    
     dispatch(userSlice.actions.updateProfileRequest());
     try {
       const response = await axios.put(
-        "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/user/me/profile/update",
+        
+        "http://localhost:5000/api/user/update-profile",
         data,
         {
           withCredentials: true,
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+      console.log("respne>",response),
       dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
-      dispatch(userSlice.actions.clearAllErrors());
+      dispatch(userSlice.actions.clearAllUserErrors());
     } catch (error) {
       dispatch(
         userSlice.actions.updateProfileFailed(error.response.data.message)
