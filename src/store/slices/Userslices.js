@@ -6,100 +6,99 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     loading: false,
-    user: null,
+    user: {},
     isAuthenticated: false,
     error: null,
     message: null,
     isUpdated: false,
   },
   reducers: {
-    loginRequest: (state) => {
+    loginRequest(state, action) {
       state.loading = true;
       state.isAuthenticated = false;
       state.user = {};
       state.error = null;
     },
-    loginSuccess: (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = true;
-      state.user = action.payload.user;
-      state.message = action.payload.message;
-      state.error = null;
-    },
-    loginFailed: (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.user = null;
-      state.error = action.payload;
-    },
-    loadUserRequest: (state) => {
-      state.loading = true;
-      state.isAuthenticated = false;
-      state.user = {};
-      state.error = null;
-    },
-    loadUserSuccess: (state, action) => {
+    loginSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
       state.error = null;
     },
-    loadUserFailed: (state, action) => {
+    loginFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = {};
       state.error = action.payload;
     },
-    logoutSuccess: (state, action) => {
+    logoutSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = {};
       state.error = null;
       state.message = action.payload;
     },
-    logoutFailed: (state, action) => {
+    logoutFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = state.isAuthenticated;
       state.user = state.user;
       state.error = action.payload;
     },
-    updatePasswordRequest: (state) => {
+    loadUserRequest(state, action) {
+      state.loading = true;
+      state.isAuthenticated = false;
+      state.user = {};
+      state.error = null;
+    },
+    loadUserSuccess(state, action) {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.error = null;
+    },
+    loadUserFailed(state, action) {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.user = {};
+      state.error = action.payload;
+    },
+    updatePasswordRequest(state, action) {
       state.loading = true;
       state.isUpdated = false;
       state.message = null;
       state.error = null;
     },
-    updatePasswordSuccess: (state, action) => {
+    updatePasswordSuccess(state, action) {
       state.loading = false;
       state.isUpdated = true;
       state.message = action.payload;
       state.error = null;
     },
-    updatePasswordFailed: (state, action) => {
+    updatePasswordFailed(state, action) {
       state.loading = false;
       state.isUpdated = false;
       state.message = null;
       state.error = action.payload;
     },
-    updateProfileRequest: (state) => {
+    updateProfileRequest(state, action) {
       state.loading = true;
       state.isUpdated = false;
       state.message = null;
       state.error = null;
     },
-    updateProfileSuccess: (state, action) => {
+    updateProfileSuccess(state, action) {
       state.loading = false;
       state.isUpdated = true;
       state.message = action.payload;
       state.error = null;
     },
-    updateProfileFailed: (state, action) => {
+    updateProfileFailed(state, action) {
       state.loading = false;
       state.isUpdated = false;
       state.message = null;
       state.error = action.payload;
     },
-    updateProfileResetAfterUpdate: (state) => {
+    updateProfileResetAfterUpdate(state, action) {
       state.error = null;
       state.isUpdated = false;
       state.message = null;
@@ -162,19 +161,17 @@ export const logout = () => async (dispatch) => {
   }
 };
 
+
 export const updatePassword =
   (currentPassword, newPassword, confirmPassword) => async (dispatch) => {
     dispatch(userSlice.actions.updatePasswordRequest());
     try {
-      const token = Cookies.get('portfolioToken');
       const { data } = await axios.put(
         "http://localhost:5000/api/user/update-password",
         { currentPassword, newPassword, confirmPassword },
         {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          }
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
         }
       );
       dispatch(userSlice.actions.updatePasswordSuccess(data.message));
@@ -186,29 +183,26 @@ export const updatePassword =
     }
   };
 
-export const updateProfile = (data) => async (dispatch) => {
-  dispatch(userSlice.actions.updateProfileRequest());
-  try {
-    const token = Cookies.get('portfolioToken');
-    const response = await axios.put(
-      "http://localhost:5000/api/user/update-profile",
-      data,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+
+  export const updateProfile = (data) => async (dispatch) => {
+    dispatch(userSlice.actions.updateProfileRequest());
+    try {
+      const response = await axios.put(
+        "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/user/me/profile/update",
+        data,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
         }
-      }
-    );
-    dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
-    dispatch(userSlice.actions.clearAllUserErrors());
-  } catch (error) {
-    dispatch(
-      userSlice.actions.updateProfileFailed(error.response.data.message)
-    );
-  }
-};
+      );
+      dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
+      dispatch(userSlice.actions.clearAllErrors());
+    } catch (error) {
+      dispatch(
+        userSlice.actions.updateProfileFailed(error.response.data.message)
+      );
+    }
+  };
 
 export const resetProfile = () => (dispatch) => {
   dispatch(userSlice.actions.updateProfileResetAfterUpdate());

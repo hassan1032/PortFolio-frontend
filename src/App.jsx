@@ -32,7 +32,7 @@ const App = () => {
   }, [dispatch]);
 
   if (isInitialLoading) {
-    return <div>Loading...</div>; // Show a loading spinner while checking authentication state
+    return <div>Loading...</div>;
   }
 
   return (
