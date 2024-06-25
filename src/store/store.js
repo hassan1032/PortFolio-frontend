@@ -11,6 +11,6 @@ export const store = configureStore({
     // project: projectReducer,
     // timeline: timelineReducer,
     // softwareApplications: softwareApplicationReducer,
-    // messages: messageReducer,
+    messages: messageReducer,
   },
 });
