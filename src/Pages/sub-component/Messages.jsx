@@ -14,7 +14,7 @@ import {
   deleteMessage,
   getAllMessages,
   resetMessagesSlice,
-} from "@/store/slices/messageSlice";
+} from "../../store/slices/message.Slice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
