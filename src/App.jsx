@@ -16,6 +16,7 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import ManageTimeline from "./Pages/ManageTimeline";
 import ViewProject from "./Pages/ViewProject";
+import { getAllSkills } from "./store/slices/Addskill";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(getUser());
     dispatch(getAllMessages());
+    dispatch(getAllSkills());
   }, [dispatch]);
 
   return (

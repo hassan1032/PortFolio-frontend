@@ -3,12 +3,12 @@ import {
   clearAllSkillErrors,
   getAllSkills,
   resetSkillSlice,
-} from "@/store/slices/skillSlice";
+} from "../../store/slices/Addskill";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
-import SpecialLoadingButton from "./SpecialLoadingButton";
+import SpecialLoadingButton from "../sub-component/specialLoding.button";
 
 const AddSkill = () => {
   const [title, setTitle] = useState("");
