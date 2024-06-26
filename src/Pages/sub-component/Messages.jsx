@@ -63,13 +63,13 @@ const Messages = () => {
                 </Button>
               </CardHeader>
               <CardContent className="grid sm:grid-cols-2 gap-4">
-                {messages && messages.length > 0 ? (
+                {messages& messages.length > 0 ? (
                   messages.map((element) => {
                     return (
-                      <Card key={element._id} className="grid gap-2">
+                      <Card key={element?._id} className="grid gap-2">
                         <CardDescription className="text-slate-950">
                           <span className="font-bold mr-2">Sender Name:</span>
-                          {element.senderName}
+                          {element?.senderName}
                         </CardDescription>
                         <CardDescription className="text-slate-950">
                           <span className="font-bold mr-2">Subject:</span>
@@ -77,7 +77,7 @@ const Messages = () => {
                         </CardDescription>
                         <CardDescription className="text-slate-950">
                           <span className="font-bold mr-2">Message:</span>
-                          {element.message}
+                          {element?.message}
                         </CardDescription>
                         <CardFooter className="justify-end">
                           {loading && (messageId === element._id) ? (

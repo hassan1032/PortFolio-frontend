@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const UpdateProject = () => {
+const UpdateProject = () => {
   return (
     <div>UpdateProject</div>
   )
 }
+
+export default UpdateProject

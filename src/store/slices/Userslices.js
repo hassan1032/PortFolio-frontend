@@ -118,6 +118,7 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
+    
 
     Cookies.set('portfolioToken', data?.token);
     dispatch(userSlice.actions.loginSuccess({ user: data.user, message: data.message }));

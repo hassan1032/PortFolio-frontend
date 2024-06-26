@@ -1,55 +1,52 @@
-import React, { useEffect, useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HomePages from "./Pages/HomePages";
-import Login from "./Pages/Login";
-import ForgotPassword from "./Pages/ForgotPassword";
-import ResetPassword from "./Pages/ResetPassword";
-import ManageSkills from "./Pages/ManageSkills";
-import ManageTimeline from "./Pages/ManageTimeline";
-import ManageProjects from "./Pages/ManageProjects";
-import ViewProject from "./Pages/ViewProject";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch, useSelector } from "react-redux";
+import Login from "./Pages/Login";
+import HomePage from "./Pages/HomePages";
+import ManageSkills from "./Pages/ManageSkills";
+import ManageProjects from "./Pages/ManageProjects";
+import UpdateProject from "./Pages/UpdateProject";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { getUser } from "./store/slices/Userslices";
-import Cookies from "js-cookie";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
+// import { getAllSkills } from "./store/slices/skillSlice";
+// import { getAllSoftwareApplications } from "./store/slices/softwareApplicationSlice";
+// import { getAllTimeline } from "./store/slices/timelineSlice";
+import { getAllMessages } from "./store/slices/message.Slice";
+import ManageTimeline from "./Pages/ManageTimeline";
+//import { getAllProjects } from "./store/slices/projectSlice";
+import ViewProject from "./Pages/ViewProject";
 
-const App = () => {
+function App() {
   const dispatch = useDispatch();
-  const { isAuthenticated, loading } = useSelector((state) => state.user);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    const token = Cookies.get('portfolioToken');
-    if (token) {
-      dispatch(getUser()).finally(() => {
-        setIsInitialLoading(false);
-      });
-    } else {
-      setIsInitialLoading(false);
-    }
-  }, [dispatch]);
-
-  if (isInitialLoading) {
-    return <div>Loading...</div>;
-  }
-
+    dispatch(getUser());
+    // dispatch(getAllSkills());
+    // dispatch(getAllSoftwareApplications());
+    //  dispatch(getAllTimeline());
+    dispatch(getAllMessages());
+    //  dispatch(getAllProjects());
+  }, []);
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePages />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
-        <Route path="/manage/skills" element={isAuthenticated ? <ManageSkills /> : <Navigate to="/login" />} />
-        <Route path="/manage/timeline" element={isAuthenticated ? <ManageTimeline /> : <Navigate to="/login" />} />
-        <Route path="/manage/projects" element={isAuthenticated ? <ManageProjects /> : <Navigate to="/login" />} />
-        <Route path="/view/project/:id" element={isAuthenticated ? <ViewProject /> : <Navigate to="/login" />} />
+        <Route path="/manage/skills" element={<ManageSkills />} />
+        <Route path="/manage/timeline" element={<ManageTimeline />} />
+        <Route path="/manage/projects" element={<ManageProjects />} />
+        <Route path="/view/project/:id" element={<ViewProject />} />
+        <Route path="/update/project/:id" element={<UpdateProject />} />
       </Routes>
       <ToastContainer position="bottom-right" theme="dark" />
     </Router>
   );
-};
+}
 
 export default App;
