@@ -19,6 +19,7 @@ import ViewProject from "./Pages/ViewProject";
 import { getAllSkills } from "./store/slices/Addskill";
 import { getAllTimeline } from "./store/slices/timeline.slice";
 import { getAllSoftwareApplications } from "./store/slices/addSoftware.Slice";
+import { getAllProjects } from "./store/slices/AddProject.slice";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
     dispatch(getAllSkills());
     dispatch(getAllTimeline());
     dispatch(getAllSoftwareApplications());
+    dispatch(getAllProjects());
   }, [dispatch]);
 
   return (

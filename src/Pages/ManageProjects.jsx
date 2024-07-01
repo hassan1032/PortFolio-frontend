@@ -14,7 +14,7 @@ import {
   deleteProject,
   getAllProjects,
   resetProjectSlice,
-} from "@/store/slices/projectSlice";
+} from "../store/slices/AddProject.slice";
 import {
   Tooltip,
   TooltipContent,
@@ -89,8 +89,8 @@ const ManageProjects = () => {
                               <div className="font-medium">
                                 <img
                                   src={
-                                    element.projectBanner &&
-                                    element.projectBanner.url
+                                    element?.projectBanner &&
+                                    element?.projectBanner.url
                                   }
                                   alt={element.title}
                                   className="w-16 h-16"

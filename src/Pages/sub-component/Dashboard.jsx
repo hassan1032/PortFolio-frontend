@@ -176,21 +176,21 @@ const Dashboard = () => {
                         {projects && projects.length > 0 ? (
                           projects.map((element) => {
                             return (
-                              <TableRow className="bg-accent" key={element._id}>
+                              <TableRow className="bg-accent" key={element?._id}>
                                 <TableCell>
                                   <div className="font-medium">
-                                    {element.title}
+                                    {element?.title}
                                   </div>
                                 </TableCell>
                                 <TableCell className="hidden md:table-cell">
-                                  {element.stack}
+                                  {element?.stack}
                                 </TableCell>
                                 <TableCell className="hidden md:table-cell">
                                   <Badge
                                     className="text-xs"
                                     variant="secondary"
                                   >
-                                    {element.deployed}
+                                    {element?.deployed}
                                   </Badge>
                                 </TableCell>
                                 <TableCell className="md:table-cell">
