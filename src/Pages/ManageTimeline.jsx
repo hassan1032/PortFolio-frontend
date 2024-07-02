@@ -19,7 +19,7 @@ import {
   deleteTimeline,
   getAllTimeline,
   resetTimelineSlice,
-} from "@/store/slices/timelineSlice";
+} from "../store/slices/timeline.slice";
 
 const ManageTimeline = () => {
   const navigateTo = useNavigate();
@@ -75,16 +75,16 @@ const ManageTimeline = () => {
                       return (
                         <TableRow className="bg-accent" key={element._id}>
                           <TableCell className="font-medium">
-                            {element.title}
+                            {element?.title}
                           </TableCell>
                           <TableCell className="md:table-cell">
-                            {element.description}
+                            {element?.description}
                           </TableCell>
                           <TableCell className="md:table-cell">
-                            {element.timeline.from}
+                            {element?.timeline?.from}
                           </TableCell>
                           <TableCell className="md:table-cell">
-                            {element.timeline.to ? element.timeline.to : "____"}
+                            {element?.timeline?.to ? element?.timeline?.to : "____"}
                           </TableCell>
                           <TableCell className="flex justify-end">
                             <button
