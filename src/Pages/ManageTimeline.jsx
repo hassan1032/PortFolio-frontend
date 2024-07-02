@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import SpecialLoadingButton from "./SpecialLoadingButton";
+import SpecialLoadingButton from "../sub-component/specialLoding.button";;
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import {
