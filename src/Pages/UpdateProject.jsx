@@ -12,13 +12,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import SpecialLoadingButton from "./sub-components/SpecialLoadingButton";
+import SpecialLoadingButton from "../Pages/sub-component/specialLoding.button";
 import {
   clearAllProjectErrors,
   getAllProjects,
   resetProjectSlice,
   updateProject,
-} from "@/store/slices/projectSlice";
+} from "../store/slices/AddProject.slice";
 import { Button } from "@/components/ui/button";
 
 const UpdateProject = () => {
@@ -29,7 +29,7 @@ const UpdateProject = () => {
   const [gitRepoLink, setGitRepoLink] = useState("");
   const [deployed, setDeployed] = useState("");
   const [projectLink, setProjectLink] = useState("");
-  const [projectBanner, setProjectBanner] = useState("");
+  const [projectBanner, setProjectBanner] = useState(null);
   const [projectBannerPreview, setProjectBannerPreview] = useState("");
 
   const { error, message, loading } = useSelector((state) => state.project);
@@ -49,7 +49,7 @@ const UpdateProject = () => {
   useEffect(() => {
     const getProject = async () => {
       await axios
-        .get(`https://mern-stack-portfolio-backend-code.onrender.com/api/v1/project/get/${id}`, {
+        .get(`http://localhost:5000/api/project/getSingleProject/${id}`, {
           withCredentials: true,
         })
         .then((res) => {
@@ -61,10 +61,10 @@ const UpdateProject = () => {
           setGitRepoLink(res.data.project.gitRepoLink);
           setProjectLink(res.data.project.projectLink);
           setProjectBanner(
-            res.data.project.projectBanner && res.data.project.projectBanner.url
+            res.data.project.image && res.data.project.image.url
           );
           setProjectBannerPreview(
-            res.data.project.projectBanner && res.data.project.projectBanner.url
+            res.data.project.image && res.data.project.image.url
           );
         })
         .catch((error) => {
@@ -95,6 +95,7 @@ const UpdateProject = () => {
     formData.append("gitRepoLink", gitRepoLink);
     formData.append("projectLink", projectLink);
     formData.append("projectBanner", projectBanner);
+    formData.append("image", projectBanner);
     dispatch(updateProject(id, formData));
   };
 
@@ -109,6 +110,7 @@ const UpdateProject = () => {
         <form
           onSubmit={handleUpdateProject}
           className="w-[100%] px-5 md:w-[1000px] pb-5"
+           encType="multipart/form-data"
         >
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
