@@ -29,7 +29,7 @@ const UpdateProject = () => {
   const [gitRepoLink, setGitRepoLink] = useState("");
   const [deployed, setDeployed] = useState("");
   const [projectLink, setProjectLink] = useState("");
-  const [projectBanner, setProjectBanner] = useState(null);
+  const [projectBanner, setProjectBanner] = useState("");
   const [projectBannerPreview, setProjectBannerPreview] = useState("");
 
   const { error, message, loading } = useSelector((state) => state.project);
@@ -60,11 +60,11 @@ const UpdateProject = () => {
           setTechnologies(res.data.project.technologies);
           setGitRepoLink(res.data.project.gitRepoLink);
           setProjectLink(res.data.project.projectLink);
-          // setProjectBanner(
-          //   res.data.project.image && res.data.project.image.url
-          // );
+          setProjectBanner(
+            res.data.project.projectBanner && res.data.project.projectBanner.url
+          );
           setProjectBannerPreview(
-            res.data.project.image && res.data.project.image.url
+            res.data.project.projectBanner && res.data.project.projectBanner.url
           );
         })
         .catch((error) => {
@@ -94,8 +94,7 @@ const UpdateProject = () => {
     formData.append("technologies", technologies);
     formData.append("gitRepoLink", gitRepoLink);
     formData.append("projectLink", projectLink);
-    // formData.append("projectBanner", projectBanner);
-    formData.append("image", projectBanner);
+    formData.append("projectBanner", projectBanner);
     dispatch(updateProject(id, formData));
   };
 
@@ -110,7 +109,6 @@ const UpdateProject = () => {
         <form
           onSubmit={handleUpdateProject}
           className="w-[100%] px-5 md:w-[1000px] pb-5"
-           encType="multipart/form-data"
         >
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
