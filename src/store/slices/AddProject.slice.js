@@ -138,6 +138,28 @@ export const deleteProject = (id) => async (dispatch) => {
     );
   }
 };
+// export const updateProject = (id, newData) => async (dispatch) => {
+//   dispatch(projectSlice.actions.updateProjectRequest());
+//   try {
+//     const response = await axios.put(
+//       `http://localhost:5000/api/project/update/${id}`,
+//       newData,
+//       {
+//         withCredentials: true,
+//         headers: { "Content-Type": "multipart/form-data" },
+//       }
+//     );
+//     dispatch(projectSlice.actions.updateProjectSuccess(response.data.message));
+//     dispatch(projectSlice.actions.clearAllErrors());
+//   } catch (error) {
+//     console.log(error);
+//     dispatch(
+//       projectSlice.actions.updateProjectFailed(error.response.data.message)
+//     );
+//   }
+// };
+
+
 export const updateProject = (id, newData) => async (dispatch) => {
   dispatch(projectSlice.actions.updateProjectRequest());
   try {
@@ -149,13 +171,13 @@ export const updateProject = (id, newData) => async (dispatch) => {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
-    dispatch(projectSlice.actions.updateProjectSuccess(response.data.message));
+    dispatch(projectSlice.actions.updateProjectSuccess(response.data.project));
+    toast.success(response.data.message);
     dispatch(projectSlice.actions.clearAllErrors());
   } catch (error) {
-    console.log(error);
-    dispatch(
-      projectSlice.actions.updateProjectFailed(error.response.data.message)
-    );
+    console.error(error);
+    dispatch(projectSlice.actions.updateProjectFailed(error.response.data.message));
+    toast.error(error.response.data.message);
   }
 };
 
