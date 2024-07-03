@@ -87,12 +87,10 @@ const ManageProjects = () => {
                           <TableRow className="bg-accent" key={element._id}>
                             <TableCell>
                               <div className="font-medium">
-
-                               
                                 <img
                                   src={
-                                    element?.image &&
-                                    element?.image?.url
+                                    element.projectBanner &&
+                                    element.projectBanner.url
                                   }
                                   alt={element.title}
                                   className="w-16 h-16"

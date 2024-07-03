@@ -60,9 +60,9 @@ const UpdateProject = () => {
           setTechnologies(res.data.project.technologies);
           setGitRepoLink(res.data.project.gitRepoLink);
           setProjectLink(res.data.project.projectLink);
-          setProjectBanner(
-            res.data.project.image && res.data.project.image.url
-          );
+          // setProjectBanner(
+          //   res.data.project.image && res.data.project.image.url
+          // );
           setProjectBannerPreview(
             res.data.project.image && res.data.project.image.url
           );
@@ -94,7 +94,7 @@ const UpdateProject = () => {
     formData.append("technologies", technologies);
     formData.append("gitRepoLink", gitRepoLink);
     formData.append("projectLink", projectLink);
-    formData.append("projectBanner", projectBanner);
+    // formData.append("projectBanner", projectBanner);
     formData.append("image", projectBanner);
     dispatch(updateProject(id, formData));
   };
