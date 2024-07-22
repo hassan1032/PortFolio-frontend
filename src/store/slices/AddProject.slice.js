@@ -88,7 +88,7 @@ export const getAllProjects = () => async (dispatch) => {
   dispatch(projectSlice.actions.getAllProjectsRequest());
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/project/getAllProject",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/project/getAllProject",
       { withCredentials: true }
     );
     dispatch(
@@ -106,7 +106,7 @@ export const addNewProject = (data) => async (dispatch) => {
   dispatch(projectSlice.actions.addNewProjectRequest());
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/project/addProject",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/project/addProject",
       data,
       {
         withCredentials: true,
@@ -125,7 +125,7 @@ export const deleteProject = (id) => async (dispatch) => {
   dispatch(projectSlice.actions.deleteProjectRequest());
   try {
     const response = await axios.delete(
-      `http://localhost:5000/api/project/delete/${id}`,
+      `https://backend-portfolio-2-ibw1.onrender.com/api/project/delete/${id}`,
       {
         withCredentials: true,
       }
@@ -142,7 +142,7 @@ export const updateProject = (id, newData) => async (dispatch) => {
   dispatch(projectSlice.actions.updateProjectRequest());
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/project/update/${id}`,
+      `https://backend-portfolio-2-ibw1.onrender.com/api/project/update/${id}`,
       newData,
       {
         withCredentials: true,

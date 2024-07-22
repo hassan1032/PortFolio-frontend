@@ -49,7 +49,7 @@ const UpdateProject = () => {
   useEffect(() => {
     const getProject = async () => {
       await axios
-        .get(`http://localhost:5000/api/project/getSingleProject/${id}`, {
+        .get(`https://backend-portfolio-2-ibw1.onrender.com/api/project/getSingleProject/${id}`, {
           withCredentials: true,
         })
         .then((res) => {

@@ -87,7 +87,7 @@ export const getAllSkills = () => async (dispatch) => {
   dispatch(skillSlice.actions.getAllSkillsRequest());
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/siklls/all",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/siklls/all",
       { withCredentials: true }
     );
     dispatch(skillSlice.actions.getAllSkillsSuccess(response.data.skills));
@@ -103,7 +103,7 @@ export const addNewSkill = (data) => async (dispatch) => {
   dispatch(skillSlice.actions.addNewSkillRequest());
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/siklls/add",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/siklls/add",
       data,
       {
         withCredentials: true,
@@ -123,7 +123,7 @@ export const updateSkill = (id, proficiency) => async (dispatch) => {
   dispatch(skillSlice.actions.updateSkillRequest());
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/siklls/update/${id}`,
+      `https://backend-portfolio-2-ibw1.onrender.com/api/siklls/update/${id}`,
       { proficiency },
       {
         withCredentials: true,
@@ -141,7 +141,7 @@ export const deleteSkill = (id) => async (dispatch) => {
   dispatch(skillSlice.actions.deleteSkillRequest());
   try {
     const response = await axios.delete(
-      `http://localhost:5000/api/siklls/delete/${id}`,
+      `https://backend-portfolio-2-ibw1.onrender.com/api/siklls/delete/${id}`,
       {
         withCredentials: true,
       }

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { clearAllUserErrors, login } from "../store/slices/Userslices";
 import { toast } from "react-toastify";
 import SpecialLoadingButton from"../Pages/sub-component/specialLoding.button";
+import login1  from "../../public/imges/1.jpg?url"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +28,7 @@ const Login = () => {
       dispatch(clearAllUserErrors());
     }
     if (isAuthenticated) {
+      
       navigateTo("/");
     }
   }, [dispatch, isAuthenticated, error, loading]);
@@ -83,7 +85,7 @@ const Login = () => {
         </div>
       </div>
       <div className="flex justify-center items-center bg-muted">
-        <img src="/login.png" alt="login" />
+        <img src={login1} alt="login" />
       </div>
     </div>
   );

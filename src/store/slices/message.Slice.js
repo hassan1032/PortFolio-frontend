@@ -55,7 +55,7 @@ export const getAllMessages = () => async (dispatch) => {
   dispatch(messageSlice.actions.getAllMessagesRequest());
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/messages/get-message",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/messages/get-message",
       { withCredentials: true }
     );
     dispatch(
@@ -72,7 +72,7 @@ export const deleteMessage = (id) => async (dispatch) => {
   dispatch(messageSlice.actions.deleteMessageRequest());
   try {
     const response = await axios.delete(
-      `http://localhost:5000/api/messages/delete/${id}`,
+      `https://backend-portfolio-2-ibw1.onrender.com/api/messages/delete/${id}`,
       { withCredentials: true }
     );
     dispatch(messageSlice.actions.deleteMessageSuccess(response.data.message));

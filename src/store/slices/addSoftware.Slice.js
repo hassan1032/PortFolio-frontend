@@ -74,7 +74,7 @@ export const getAllSoftwareApplications = () => async (dispatch) => {
   );
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/application/get-all",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/application/get-all",
       { withCredentials: true }
     );
     dispatch(
@@ -98,7 +98,7 @@ export const addNewSoftwareApplication = (data) => async (dispatch) => {
   );
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/application/applications",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/application/applications",
       data,
       {
         withCredentials: true,
@@ -126,7 +126,7 @@ export const deleteSoftwareApplication = (id) => async (dispatch) => {
   );
   try {
     const response = await axios.delete(
-      `http://localhost:5000/api/application/delete/${id}`,
+      `https://backend-portfolio-2-ibw1.onrender.com/api/application/delete/${id}`,
       {
         withCredentials: true,
       }

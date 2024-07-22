@@ -114,13 +114,13 @@ export const login = (email, password) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
     const { data } = await axios.post(
-      "http://localhost:5000/api/user/login",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/user/login",
       { email, password },
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
     
-
-    Cookies.set('portfolioToken', data?.token);
+    localStorage.setItem('portfolioToken', data?.token);
+    console.log("token",data?.token);
     dispatch(userSlice.actions.loginSuccess({ user: data.user, message: data.message }));
   } catch (error) {
     dispatch(userSlice.actions.loginFailed(error.response.data.message));
@@ -130,32 +130,33 @@ export const login = (email, password) => async (dispatch) => {
 export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.loadUserRequest());
   try {
-    const token = Cookies.get('portfolioToken');
+    const token = localStorage.getItem('portfolioToken');
     if (!token) {
       throw new Error('No token found');
     }
 
-    const { data } = await axios.get("http://localhost:5000/api/user/me", {
+    const { data } = await axios.get("https://backend-portfolio-2-ibw1.onrender.com/api/user/me", {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       }
     });
+
     dispatch(userSlice.actions.loadUserSuccess(data.user));
   } catch (error) {
     dispatch(userSlice.actions.loadUserFailed(error.response?.data?.message || 'Failed to load user'));
-    Cookies.remove('portfolioToken');
+    // localStorage.removeItem('portfolioToken');
   }
 };
 
 export const logout = () => async (dispatch) => {
   try {
     const { data } = await axios.get(
-      "http://localhost:5000/api/user/logout",
+      "https://backend-portfolio-2-ibw1.onrender.com/api/user/logout",
       { withCredentials: true }
     );
-    Cookies.remove("portfolioToken");
+    localStorage.removeItem('portfolioToken');
     dispatch(userSlice.actions.logoutSuccess(data.message));
     dispatch(userSlice.actions.clearAllUserErrors());
   } catch (error) {
@@ -169,7 +170,7 @@ export const updatePassword =
     dispatch(userSlice.actions.updatePasswordRequest());
     try {
       const { data } = await axios.put(
-        "http://localhost:5000/api/user/update-password",
+        "https://backend-portfolio-2-ibw1.onrender.com/api/user/update-password",
         { currentPassword, newPassword, confirmPassword },
         {
           withCredentials: true,
@@ -193,7 +194,7 @@ export const updatePassword =
     try {
       const response = await axios.put(
         
-        "http://localhost:5000/api/user/update-profile",
+        "https://backend-portfolio-2-ibw1.onrender.com/api/user/update-profile",
         data,
         {
           withCredentials: true,
